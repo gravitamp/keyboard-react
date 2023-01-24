@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Props {
+  onChange: (value: string) => void;
 }
 
-export default App;
+const VirtualKeyboard: React.FC<Props> = ({ onChange }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const value = e.currentTarget.textContent;
+    if (value === 'Backspace' || value === '<') {
+      setInputValue(inputValue.slice(0, -1)); // remove last character
+    } else {
+      setInputValue(inputValue + value);
+    }
+    onChange(inputValue);
+  };
+
+  return (
+    <div>
+      <input type="text" value={inputValue} readOnly={true} />
+      <br />
+      <br />
+      <button onClick={handleClick}>1</button>
+      <button onClick={handleClick}>2</button>
+      <button onClick={handleClick}>3</button>
+      <br />
+      <button onClick={handleClick}>4</button>
+      <button onClick={handleClick}>5</button>
+      <button onClick={handleClick}>6</button>
+      <br />
+      <button onClick={handleClick}>7</button>
+      <button onClick={handleClick}>8</button>
+      <button onClick={handleClick}>9</button>
+      <br />
+      <button onClick={handleClick}>0</button>
+      <button onClick={handleClick}>.</button>
+      <button onClick={handleClick}>Backspace</button>
+    </div>
+  );
+};
+
+export default VirtualKeyboard;
